@@ -6,3 +6,15 @@
 //
 
 import Foundation
+
+struct SortingValue: Decodable {
+    var bestMatch: Double
+    var newest: Double
+    var ratingAverage: Double
+    var distance: Int
+    var popularity: Double
+    var averageProductPrice: Int
+    var deliveryCosts: Int
+    var minCost: Int
+    
+}

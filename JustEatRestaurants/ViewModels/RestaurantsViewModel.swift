@@ -9,7 +9,8 @@ import Foundation
 
 class RestaurantsViewModel: ObservableObject {
     
-    @Published private var favorites: Set<String>
+    @Published var favorites: Set<String>
+    @Published var restaurants: [Restaurant]
     
     init() {
         let savedValues = UserDefaults.standard.stringArray(forKey: "Favorites") ?? []
@@ -23,8 +24,23 @@ class RestaurantsViewModel: ObservableObject {
             fatalError("Can't load restaurants.json from the app bundle.")
         }
 
-        guard let decoded = try? JSONDecoder().decode([Restaurant].self, from: data) else {
+        guard let decoded = try? JSONDecoder().decode(RestaurantsData.self, from: data) else {
             fatalError("Can't decode restaurants.json from the app bundle.")
         }
+        
+        restaurants = decoded.restaurants
+    }
+    
+    func isfavorite(_ restaurant: Restaurant) -> Bool{
+        favorites.contains(restaurant.name)
+    }
+    
+    func toggleFavorite(_ restaurant: Restaurant){
+        if isfavorite(restaurant){
+            favorites.remove(restaurant.name)
+        }else{
+            favorites.insert(restaurant.name)
+        }
+        UserDefaults.standard.set(Array(favorites), forKey: "Favorites")
     }
 }
