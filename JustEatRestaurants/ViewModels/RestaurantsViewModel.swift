@@ -9,12 +9,12 @@ import Foundation
 
 class RestaurantsViewModel: ObservableObject {
     
-    @Published var favorites: Set<String>
+    @Published var favorites: [String]
     @Published var restaurants: [Restaurant]
     
     init() {
         let savedValues = UserDefaults.standard.stringArray(forKey: "Favorites") ?? []
-        favorites = Set(savedValues)
+        favorites = savedValues
         
         guard let url = Bundle.main.url(forResource: "restaurants", withExtension: "json") else {
             fatalError("Can't locate locations.json in the app bundle.")
@@ -35,12 +35,21 @@ class RestaurantsViewModel: ObservableObject {
         favorites.contains(restaurant.name)
     }
     
+    func addFavorite(_ restaurant: Restaurant){
+        favorites.append(restaurant.name)
+        UserDefaults.standard.set(Array(favorites), forKey: "Favorites")
+    }
+    
+    func removeFavorite(_ restaurant: Restaurant){
+        favorites = favorites.filter{$0 != restaurant.name}
+        UserDefaults.standard.set(Array(favorites), forKey: "Favorites")
+    }
+    
     func toggleFavorite(_ restaurant: Restaurant){
         if isfavorite(restaurant){
-            favorites.remove(restaurant.name)
+            removeFavorite(restaurant)
         }else{
-            favorites.insert(restaurant.name)
+            addFavorite(restaurant)
         }
-        UserDefaults.standard.set(Array(favorites), forKey: "Favorites")
     }
 }

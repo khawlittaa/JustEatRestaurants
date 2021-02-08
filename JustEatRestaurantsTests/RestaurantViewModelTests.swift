@@ -45,6 +45,32 @@ class RestaurantViewModelTests: XCTestCase {
         XCTAssertEqual(0,resaurantsVM.favorites.count)
         XCTAssertEqual(19,resaurantsVM.restaurants.count)
         
+    }
+    
+    func testAddFavorite() throws{
+        let resaurantsVM = RestaurantsViewModel()
+        let fav = resaurantsVM.restaurants[0]
+        resaurantsVM.addFavorite(fav)
+        XCTAssertEqual(1,resaurantsVM.favorites.count)
+        XCTAssertTrue(resaurantsVM.isfavorite(fav))
+        UserDefaults.standard.set(Array([]), forKey: "Favorites")
+    }
+    
+    func testRemovefavorite() throws{
+        let resaurantsVM = RestaurantsViewModel()
+        let fav = resaurantsVM.restaurants[0]
+        let fav1 = resaurantsVM.restaurants[1]
+        
+        resaurantsVM.addFavorite(fav)
+        resaurantsVM.addFavorite(fav1)
+        
+        resaurantsVM.removeFavorite(fav)
+        
+        XCTAssertEqual(1,resaurantsVM.favorites.count)
+        XCTAssertTrue(resaurantsVM.isfavorite(fav1))
+        XCTAssertFalse(resaurantsVM.isfavorite(fav))
+        
+        UserDefaults.standard.set(Array([]), forKey: "Favorites")
         
     }
 
