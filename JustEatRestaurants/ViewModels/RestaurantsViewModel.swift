@@ -28,7 +28,10 @@ class RestaurantsViewModel: ObservableObject {
             fatalError("Can't decode restaurants.json from the app bundle.")
         }
         
-        restaurants = decoded.restaurants
+        let orderedRestaurants = decoded.restaurants.reordebyStatus()
+        
+        restaurants = orderedRestaurants
+        
     }
     
     func isfavorite(_ restaurant: Restaurant) -> Bool{
