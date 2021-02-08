@@ -9,7 +9,7 @@ import XCTest
 @testable import JustEatRestaurants
 
 class RestaurantViewModelTests: XCTestCase {
-
+    
     func testRestaurantJsonParser() throws {
         let json = """
         {
@@ -122,12 +122,29 @@ class RestaurantViewModelTests: XCTestCase {
         let jsonData = json.data(using: .utf8)!
         let restaurantData =  try! JSONDecoder().decode([Restaurant].self, from: jsonData)
         
-       let sorted = restaurantData.reordebyStatus()
+        let sorted = restaurantData.reordebyStatus()
         
         XCTAssertEqual("Tanoshii Sushi",sorted[0].name)
         XCTAssertEqual("Royal Thai",sorted[1].name)
         XCTAssertEqual("Tandoori Express",sorted[2].name)
         
     }
-
+    
+    func testOrderRestaurants() throws{
+        
+        let resaurantsVM = RestaurantsViewModel()
+        let fav = resaurantsVM.restaurants[3]
+        
+        resaurantsVM.addFavorite(fav)
+        
+        let sorted = resaurantsVM.reorderRestaurants()
+        
+        XCTAssertEqual(fav.name,sorted[0].name)
+        XCTAssertEqual("open",sorted[1].status)
+        
+        XCTAssertTrue(resaurantsVM.isfavorite(fav))
+        
+        UserDefaults.standard.set(Array([]), forKey: "Favorites")
+    }
+    
 }

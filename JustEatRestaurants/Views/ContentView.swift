@@ -8,27 +8,108 @@
 import SwiftUI
 
 struct ContentView: View {
+    
     @ObservedObject var restaurantsViewModel = RestaurantsViewModel()
     
+    @State var isSearching = false
+    @State var searchText = ""
+    
     var body: some View {
-            SearchBar()
+        searchBar
         
-        ScrollView(.horizontal){
-                HStack{
+        ScrollView(.horizontal, showsIndicators: false){
+            HStack{
                 SortOptionCell(sortingValue: "All")
                 SortOptionCell(sortingValue: "value1")
                 SortOptionCell(sortingValue: "value1")
                 SortOptionCell(sortingValue: "value1")
             }
         }
-        List{
+        restaurantsList
+         
+    }
+    
+    var restaurantsList: some View{
+        return  List{
             ForEach(restaurantsViewModel.restaurants){ restaurant in
-                RestaurantCell(restaurant: restaurant, isfavorite: restaurantsViewModel.isfavorite(restaurant))
+                RestaurantCell(restaurant: restaurant, isfavorite: isfavorite(restaurant))
                     .padding(.all,2)
                     .listRowInsets(EdgeInsets())
                     .background(Color.white)
             }
         }
+        .onAppear(perform: restaurantsViewModel.reorderBypriority)
+    }
+    var searchBar : some View{
+        
+      return  VStack(spacing: 0){
+            
+            HStack{
+                
+                if !self.isSearching{
+                    
+                    Text("Restaurants")
+                        .fontWeight(.bold)
+                        .font(.title)
+                        .foregroundColor(.white)
+                }
+                
+                Spacer(minLength: 0)
+                
+                HStack{
+                    
+                    if self.isSearching{
+                        
+                        
+                        Image(systemName: "magnifyingglass").padding(.horizontal, 8)
+                        
+                        TextField("Search Restaurants", text: self.$searchText)
+                        
+                        Button(action: {
+                            
+                            withAnimation {
+                                
+                                self.searchText = ""
+                                self.isSearching.toggle()
+                            }
+                            
+                        }) {
+                            
+                            Image(systemName: "xmark").foregroundColor(.black)
+                        }
+                        .padding(.horizontal, 8)
+                        
+                    }
+                    
+                    else{
+                        
+                        Button(action: {
+                            
+                            withAnimation {
+                                
+                                self.isSearching.toggle()
+                            }
+                            
+                        }) {
+                            Image(systemName: "magnifyingglass").foregroundColor(.black).padding(10)
+                            
+                        }
+                    }
+                }
+                .padding(self.isSearching ? 10 : 0)
+                .background(Color.white)
+                .cornerRadius(20)
+                
+                
+            }
+            .padding(.top, (UIApplication.shared.windows.first?.safeAreaInsets.top)! + 15)
+            .padding(.horizontal)
+            .padding(.bottom, 10)
+            .background(Color.orange)
+            
+            
+        }
+        .edgesIgnoringSafeArea(.top)
     }
 }
 

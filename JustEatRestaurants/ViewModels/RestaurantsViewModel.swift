@@ -9,12 +9,9 @@ import Foundation
 
 class RestaurantsViewModel: ObservableObject {
     
-    @Published var favorites: [String]
     @Published var restaurants: [Restaurant]
     
     init() {
-        let savedValues = UserDefaults.standard.stringArray(forKey: "Favorites") ?? []
-        favorites = savedValues
         
         guard let url = Bundle.main.url(forResource: "restaurants", withExtension: "json") else {
             fatalError("Can't locate locations.json in the app bundle.")
@@ -28,31 +25,32 @@ class RestaurantsViewModel: ObservableObject {
             fatalError("Can't decode restaurants.json from the app bundle.")
         }
         
-        let orderedRestaurants = decoded.restaurants.reordebyStatus()
-        
-        restaurants = orderedRestaurants
+        restaurants = decoded.restaurants
         
     }
     
-    func isfavorite(_ restaurant: Restaurant) -> Bool{
-        favorites.contains(restaurant.name)
+    func reorderBypriority(){
+        restaurants = reorderRestaurants()
     }
     
-    func addFavorite(_ restaurant: Restaurant){
-        favorites.append(restaurant.name)
-        UserDefaults.standard.set(Array(favorites), forKey: "Favorites")
-    }
-    
-    func removeFavorite(_ restaurant: Restaurant){
-        favorites = favorites.filter{$0 != restaurant.name}
-        UserDefaults.standard.set(Array(favorites), forKey: "Favorites")
-    }
-    
-    func toggleFavorite(_ restaurant: Restaurant){
-        if isfavorite(restaurant){
-            removeFavorite(restaurant)
-        }else{
-            addFavorite(restaurant)
+  private  func reorderRestaurants() -> [Restaurant] {
+        let defaultOrder = ["open", "order ahead", "closed"]
+
+        return restaurants.sorted { (res1taurant1, restaurant2) -> Bool in
+//            if both restaurants are favorite  or not favorite sort by status
+            if isfavorite(res1taurant1) == isfavorite(restaurant2){
+                if let first = defaultOrder.index(of: res1taurant1.status), let second = defaultOrder.index(of: restaurant2.status) {
+                    return first < second
+                }
+                return false
+            }else{
+               return isfavorite(res1taurant1) && !isfavorite(restaurant2)
+            }
         }
     }
+    
+    func filterResturantsByName(searchname: String){
+        restaurants =  restaurants.filter({$0.name.lowercased().contains(searchname.lowercased())})
+    }
+    
 }

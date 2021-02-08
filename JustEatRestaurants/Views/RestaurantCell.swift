@@ -9,7 +9,7 @@ import SwiftUI
 
 struct RestaurantCell: View {
     var restaurant: Restaurant
-    var isfavorite: Bool
+   @State var isfavorite: Bool
     
     var body: some View {
         VStack(alignment: .leading , spacing:2){
@@ -25,6 +25,10 @@ struct RestaurantCell: View {
                     .foregroundColor(.orange)
                 Spacer()
                 favoriteIcone
+                    .onTapGesture {
+                        toggleFavorite(restaurant)
+                        isfavorite = JustEatRestaurants.isfavorite(restaurant)
+                    }
                 
             })
             
@@ -105,7 +109,7 @@ struct RestaurantCell: View {
                 .resizable()
                 .frame(width: 25, height: 25)
                 .foregroundColor(.pink)
-                .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 20))
+                .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
         }else {
             return   Image(systemName: "heart")
                 .resizable()
