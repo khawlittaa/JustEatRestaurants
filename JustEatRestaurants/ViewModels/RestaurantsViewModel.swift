@@ -114,6 +114,12 @@ class RestaurantsViewModel: ObservableObject {
          return   rest1.sortingValues.ratingAverage > rest2.sortingValues.ratingAverage
         }
     }
+  private  func selecSortingValue(index: Int){
+        for i in 0...sortingOptions.count-1 where i != index{
+                sortingOptions[i].isSelected = false
+        }
+        
+    }
     
     func SortByValue(index: Int){
         let item = sortingOptions[index]
@@ -121,6 +127,7 @@ class RestaurantsViewModel: ObservableObject {
             item.isSelected = false
         }else{
             item.isSelected = true
+            selecSortingValue(index: index)
             switch item.type {
             case .none:
                 print("filter by priorities")

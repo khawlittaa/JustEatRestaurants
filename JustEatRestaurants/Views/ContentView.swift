@@ -33,7 +33,9 @@ struct ContentView: View {
                             restaurantsViewModel.SortByValue(index: i)
                         }
                 }
-            }.padding(.all,4)
+            }
+            .id(UUID())
+            .padding(.all,4)
         }
     }
     
