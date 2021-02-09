@@ -154,8 +154,8 @@ class RestaurantsViewModel: ObservableObject {
         
     }
     
-    func filterResturantsByName(searchname: String){
-        restaurants =  restaurants.filter({$0.name.lowercased().contains(searchname.lowercased())})
+    func filterResturantsByName(searchname: String) -> [Restaurant]{
+        return restaurants.filter({$0.name.lowercased().contains(searchname.lowercased())})
     }
     
 }

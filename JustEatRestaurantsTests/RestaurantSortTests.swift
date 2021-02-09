@@ -83,4 +83,12 @@ class RestaurantSortTests: XCTestCase {
         XCTAssertEqual(4465,sorted.last?.sortingValues.averageProductPrice)
     }
     
+    func testSortByName() throws {
+        
+        let resaurantsVM = RestaurantsViewModel()
+        let sorted = resaurantsVM.filterResturantsByName(searchname: "pizza")
+        
+        XCTAssertEqual(1,sorted.count)
+    }
+    
 }
