@@ -10,15 +10,12 @@ import SwiftUI
 struct ContentView: View {
     
     @ObservedObject var restaurantsViewModel = RestaurantsViewModel()
-    
     @State var isSearching = false
     @State var searchText = ""
     
     var body: some View {
         searchBar
         filtersList
-        //        restaurantsList
-        
         ScrollView(.vertical, showsIndicators: false) {
             
             VStack(spacing: 15){
@@ -51,7 +48,6 @@ struct ContentView: View {
                 }
                 
             }
-            .id(UUID())
             .padding(.horizontal, 15)
             .padding(.top, 10)
         }

@@ -16,6 +16,8 @@ class RestaurantsViewModel: ObservableObject {
         }
     }
     @Published var sortingOptions: [SortOption]
+//    need to sync myfavorites with userDefault Value
+    @Published var myFavorites: [String] = favorites
     
     init() {
         
@@ -31,9 +33,9 @@ class RestaurantsViewModel: ObservableObject {
             fatalError("Can't decode restaurants.json from the app bundle.")
         }
         
-        restaurants = decoded.restaurants
+        restaurants = decoded.restaurants.reorderRestaurants()
         
-        let sort1 = SortOption(type: .none, filterTitle: "All",isSelected: true)
+        let sort1 = SortOption(type: .none, filterTitle: "default",isSelected: true)
         let sort2 = SortOption(type: .bestMatch, filterTitle: "best Match")
         let sort3 = SortOption(type: .deliveryCosts, filterTitle: "delivery Costs")
         let sort4 = SortOption(type: .distance, filterTitle: "distance")
@@ -44,31 +46,14 @@ class RestaurantsViewModel: ObservableObject {
         let sort9 = SortOption(type: .averageProductPrice, filterTitle: "average Product Price")
         
         sortingOptions = [sort1, sort2, sort3, sort4, sort5, sort6, sort7, sort8, sort9]
-        
     }
     
     func reorderBypriority(){
-        restaurants = reorderRestaurants()
+        myFavorites = favorites
+        restaurants = restaurants.reorderRestaurants()
         objectWillChange.send()
     }
-    
-    
-    private  func reorderRestaurants() -> [Restaurant] {
-        let defaultOrder = ["open", "order ahead", "closed"]
-        
-        return restaurants.sorted { (res1taurant1, restaurant2) -> Bool in
-            //            if both restaurants are favorite  or not favorite sort by status
-            if isfavorite(res1taurant1) == isfavorite(restaurant2){
-                if let first = defaultOrder.index(of: res1taurant1.status), let second = defaultOrder.index(of: restaurant2.status) {
-                    return first < second
-                }
-                return false
-            }else{
-                return isfavorite(res1taurant1) && !isfavorite(restaurant2)
-            }
-        }
-    }
-    
+ 
     func sortbyDistance() -> [Restaurant]{
       return  restaurants.sorted { (rest1, rest2) -> Bool in
          return   rest1.sortingValues.distance < rest2.sortingValues.distance
@@ -92,6 +77,7 @@ class RestaurantsViewModel: ObservableObject {
          return   rest1.sortingValues.bestMatch > rest2.sortingValues.bestMatch
         }
     }
+    
     func sortbydeliveryCosts() -> [Restaurant]{
       return  restaurants.sorted { (rest1, rest2) -> Bool in
          return   rest1.sortingValues.deliveryCosts < rest2.sortingValues.deliveryCosts
@@ -103,6 +89,7 @@ class RestaurantsViewModel: ObservableObject {
          return   rest1.sortingValues.minCost < rest2.sortingValues.minCost
         }
     }
+    
     func sortbyAverageProductPrice() -> [Restaurant]{
       return  restaurants.sorted { (rest1, rest2) -> Bool in
          return   rest1.sortingValues.averageProductPrice < rest2.sortingValues.averageProductPrice
@@ -114,11 +101,11 @@ class RestaurantsViewModel: ObservableObject {
          return   rest1.sortingValues.ratingAverage > rest2.sortingValues.ratingAverage
         }
     }
+    
   private  func selecSortingValue(index: Int){
         for i in 0...sortingOptions.count-1 where i != index{
                 sortingOptions[i].isSelected = false
         }
-        
     }
     
     func SortByValue(index: Int){
@@ -158,7 +145,6 @@ class RestaurantsViewModel: ObservableObject {
                 restaurants = sortbyRatingAverage()
             }
         }
-        
     }
     
     func filterResturantsByName(searchname: String) -> [Restaurant]{
