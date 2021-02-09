@@ -15,6 +15,5 @@ struct SortingValue: Decodable {
     var popularity: Double
     var averageProductPrice: Int
     var deliveryCosts: Int
-    var minCost: Int
-    
+    var minCost: Int    
 }

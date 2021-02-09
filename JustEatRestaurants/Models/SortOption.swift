@@ -7,16 +7,16 @@
 
 import Foundation
 
-enum SortOptions {
-    case none
-    case distance
-    case popularity
-    case newest
-    case bestMatch
-    case deliveryCosts
-    case minimumCost
-    case averageProductPrice
-    case ratingAverage
+enum SortOptions:String,CaseIterable {
+    case none = "none"
+    case distance = "distance"
+    case popularity = "poularity"
+    case newest = "newest"
+    case bestMatch = "best Match"
+    case deliveryCosts = "delivery Costs"
+    case minimumCost = "minimum Cost"
+    case averageProductPrice = "average Product Price"
+    case ratingAverage = "rating Average"
 }
 
 class SortOption: Identifiable {

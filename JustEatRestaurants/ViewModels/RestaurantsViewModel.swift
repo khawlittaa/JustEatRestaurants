@@ -15,8 +15,7 @@ class RestaurantsViewModel: ObservableObject {
             objectWillChange.send()
         }
     }
-    @Published var sortingOptions: [SortOption]
-    //    need to sync myfavorites with userDefault Value
+    @Published var sortingOptions: [SortOption] = []
     @Published var myFavorites: [String] = UserDefaults.standard.favorites{
         didSet {
             UserDefaults.standard.favorites = myFavorites
@@ -42,17 +41,12 @@ class RestaurantsViewModel: ObservableObject {
         
         restaurants = decoded.restaurants.reorderRestaurants()
         
-        let sort1 = SortOption(type: .none, filterTitle: "default",isSelected: true)
-        let sort2 = SortOption(type: .bestMatch, filterTitle: "best Match")
-        let sort3 = SortOption(type: .deliveryCosts, filterTitle: "delivery Costs")
-        let sort4 = SortOption(type: .distance, filterTitle: "distance")
-        let sort5 = SortOption(type: .minimumCost, filterTitle: "minimum Cost")
-        let sort6 = SortOption(type: .newest, filterTitle: "newest")
-        let sort7 = SortOption(type: .popularity, filterTitle: "popularity")
-        let sort8 = SortOption(type: .ratingAverage, filterTitle: "rating Average")
-        let sort9 = SortOption(type: .averageProductPrice, filterTitle: "average Product Price")
         
-        sortingOptions = [sort1, sort2, sort3, sort4, sort5, sort6, sort7, sort8, sort9]
+        SortOptions.allCases.forEach({ (s) in
+            let sort = SortOption(type: s, filterTitle: s.rawValue)
+                    sortingOptions.append(sort)
+                })
+        sortingOptions.first?.isSelected = true
         
         cancelable = UserDefaults.standard.publisher(for: \.favorites)
             .sink(receiveValue: { [weak self] newValue in
@@ -61,9 +55,7 @@ class RestaurantsViewModel: ObservableObject {
                     self.myFavorites = newValue
                 }
             })
-        
     }
-    
     
     func reorderBypriority(){
         restaurants = restaurants.reorderRestaurants()

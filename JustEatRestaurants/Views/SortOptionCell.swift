@@ -14,6 +14,7 @@ struct SortOptionCell: View {
     
     var body: some View {
        filterStyle
+        .cornerRadius(10)
     }
 
     var filterStyle: some View{

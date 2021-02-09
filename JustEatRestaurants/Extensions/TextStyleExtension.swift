@@ -10,8 +10,7 @@ import SwiftUI
 extension Text{
     func filterStyle() -> some View {
         self
-            .frame(height: 30)
-            .cornerRadius(10)
+            .frame(height: 20)
             .font(.system(size: 12.0))
             .padding(.all,2)
         
