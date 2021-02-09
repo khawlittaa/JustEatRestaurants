@@ -16,12 +16,48 @@ struct ContentView: View {
     
     var body: some View {
         searchBar
-        
         filtersList
+        //        restaurantsList
         
-        restaurantsList
-         
+        ScrollView(.vertical, showsIndicators: false) {
+            
+            VStack(spacing: 15){
+                
+                if self.searchText != ""{
+                    
+                    if restaurantsViewModel.filterResturantsByName(searchname: self.searchText).count == 0{
+                        
+                        Text("No Results Found").padding(.top, 10)
+                    }
+                    else{
+                        
+                        ForEach(restaurantsViewModel.filterResturantsByName(searchname: self.searchText)){ result in
+                            
+                            RestaurantCell(restaurant: result, isfavorite: isfavorite(result))
+                                .padding(.all,2)
+                                .listRowInsets(EdgeInsets())
+                                .background(Color.white)
+                        }
+                    }
+                }
+                
+                else{
+                    ForEach(restaurantsViewModel.restaurants){ restaurant in
+                        RestaurantCell(restaurant: restaurant, isfavorite: isfavorite(restaurant))
+                            .padding(.all,2)
+                            .listRowInsets(EdgeInsets())
+                            .background(Color.white)
+                    }
+                }
+                
+            }
+            .id(UUID())
+            .padding(.horizontal, 15)
+            .padding(.top, 10)
+        }
+        .edgesIgnoringSafeArea(.top)
     }
+    
     
     var filtersList: some View{
         return   ScrollView(.horizontal, showsIndicators: false){
@@ -39,21 +75,9 @@ struct ContentView: View {
         }
     }
     
-    var restaurantsList: some View{
-        return  List{
-            ForEach(restaurantsViewModel.restaurants){ restaurant in
-                RestaurantCell(restaurant: restaurant, isfavorite: isfavorite(restaurant))
-                    .padding(.all,2)
-                    .listRowInsets(EdgeInsets())
-                    .background(Color.white)
-            }
-        }
-        .onAppear(perform: restaurantsViewModel.reorderBypriority)
-        .padding(.all,0)
-    }
     var searchBar : some View{
         
-      return  VStack(spacing: 0){
+        return  VStack(spacing: 0){
             
             HStack{
                 
