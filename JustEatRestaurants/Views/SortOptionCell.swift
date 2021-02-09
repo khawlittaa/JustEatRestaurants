@@ -9,22 +9,28 @@ import SwiftUI
 
 struct SortOptionCell: View {
     let sortingValue: String
+    @State var isSelected: Bool
     
     var body: some View {
-        let width = (UIScreen.main.bounds.width / 4) - 20
-        
-                Text(sortingValue)
-                    .frame(width: width, height: 30)
-                    .background(Color.orange)
-                    .cornerRadius(15)
-                    .foregroundColor(.white)
-                    .font(.system(size: 12.0))
-    
+        filterStyle
+            .onTapGesture {
+                isSelected = !isSelected
+            }
     }
-}
-
-struct SortOptionCell_Previews: PreviewProvider {
-    static var previews: some View {
-        SortOptionCell(sortingValue: "distance")
+    
+    var filterStyle: some View{
+        if isSelected{
+            return Text(sortingValue)
+                .filterStyle()
+                .background(Color.orange)
+                .foregroundColor(.white)
+            
+        }else {
+            return Text(sortingValue)
+                .filterStyle()
+                .background(Color.white)
+                .foregroundColor(.orange)
+            
+        }
     }
 }

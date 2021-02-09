@@ -21,8 +21,7 @@ struct RestaurantCell: View {
             
             HStack(alignment: .center, content: {
                 Text("\(restaurant.name)")
-                    .font(.system(size: 24.0))
-                    .foregroundColor(.orange)
+                    .titleStyle()
                 Spacer()
                 favoriteIcone
                     .onTapGesture {

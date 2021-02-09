@@ -10,6 +10,7 @@ import Foundation
 class RestaurantsViewModel: ObservableObject {
     
     @Published var restaurants: [Restaurant]
+    @Published var sortingOptions: [SortOption]
     
     init() {
         
@@ -26,6 +27,18 @@ class RestaurantsViewModel: ObservableObject {
         }
         
         restaurants = decoded.restaurants
+        
+        let sort1 = SortOption(type: .none, filterTitle: "All",isSelected: true)
+        let sort2 = SortOption(type: .bestMatch, filterTitle: "best Match")
+        let sort3 = SortOption(type: .deliveryCosts, filterTitle: "delivery Costs")
+        let sort4 = SortOption(type: .distance, filterTitle: "distance")
+        let sort5 = SortOption(type: .minimumCost, filterTitle: "minimum Cost")
+        let sort6 = SortOption(type: .newest, filterTitle: "newest")
+        let sort7 = SortOption(type: .popularity, filterTitle: "popularity")
+        let sort8 = SortOption(type: .ratingAverage, filterTitle: "rating Average")
+        let sort9 = SortOption(type: .averageProductPrice, filterTitle: "average Product Price")
+        
+        sortingOptions = [sort1, sort2, sort3, sort4, sort5, sort6, sort7, sort8, sort9]
         
     }
     

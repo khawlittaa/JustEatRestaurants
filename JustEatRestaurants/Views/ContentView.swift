@@ -17,12 +17,14 @@ struct ContentView: View {
     var body: some View {
         searchBar
         
+        
         ScrollView(.horizontal, showsIndicators: false){
             HStack{
-                SortOptionCell(sortingValue: "All")
-                SortOptionCell(sortingValue: "value1")
-                SortOptionCell(sortingValue: "value1")
-                SortOptionCell(sortingValue: "value1")
+              
+                ForEach(restaurantsViewModel.sortingOptions){
+                    value in
+                    SortOptionCell(sortingValue: value.filterTitle, isSelected: value.isSelected)
+                }
             }
         }
         restaurantsList
