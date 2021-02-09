@@ -17,8 +17,14 @@ struct ContentView: View {
     var body: some View {
         searchBar
         
+        filtersList
         
-        ScrollView(.horizontal, showsIndicators: false){
+        restaurantsList
+         
+    }
+    
+    var filtersList: some View{
+        return   ScrollView(.horizontal, showsIndicators: false){
             HStack{
                 ForEach(restaurantsViewModel.sortingOptions.indices){
                     i in
@@ -29,8 +35,6 @@ struct ContentView: View {
                 }
             }.padding(.all,4)
         }
-        restaurantsList
-         
     }
     
     var restaurantsList: some View{
@@ -43,6 +47,7 @@ struct ContentView: View {
             }
         }
         .onAppear(perform: restaurantsViewModel.reorderBypriority)
+        .padding(.all,0)
     }
     var searchBar : some View{
         

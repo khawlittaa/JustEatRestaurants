@@ -9,13 +9,14 @@ import SwiftUI
 
 struct RestaurantCell: View {
     var restaurant: Restaurant
-   @State var isfavorite: Bool
+    @State var isfavorite: Bool
     
     var body: some View {
         VStack(alignment: .leading , spacing:2){
             HStack(spacing: 2){
                 restaurantRating
                 restaurantPopularity
+                    .infostyle()
                 
             }
             
@@ -35,6 +36,7 @@ struct RestaurantCell: View {
                 sortinginformations
                 Spacer()
                 restaurantStatus
+                    . statusstyle()
                     .padding(.trailing, 4)
             })
             
@@ -44,7 +46,7 @@ struct RestaurantCell: View {
             RoundedRectangle(cornerRadius: 10)
                 .stroke(Color.white, lineWidth: 0.2)
                 .shadow(radius: 0.4 )
-                
+            
         )
     }
     
@@ -57,8 +59,8 @@ struct RestaurantCell: View {
                     .frame(width: 10, height: 10)
                 
                 Text("\(restaurant.sortingValues.ratingAverage.description)/5")
-                .font(.system(size: 10.0))
-                .foregroundColor(.gray)
+                    .infostyle()
+                    .foregroundColor(.gray)
                 
             }
         }else {
@@ -69,35 +71,32 @@ struct RestaurantCell: View {
                     .frame(width: 10, height: 10)
                 
                 Text("\(restaurant.sortingValues.ratingAverage.description)/5")
-                .font(.system(size: 10.0))
+                    .infostyle()
+                    .foregroundColor(.black)
             }
         }
     }
     
-    var restaurantPopularity: some View{
+    var restaurantPopularity: Text{
         if restaurant.sortingValues.popularity.description == "0.0"{
-        return    Text("(\(restaurant.sortingValues.popularity.description))")
-                .font(.system(size: 10.0))
+            return    Text("(\(restaurant.sortingValues.popularity.description))")
                 .foregroundColor(.gray)
         }else {
             return    Text("(\(restaurant.sortingValues.popularity.description))")
-                .font(.system(size: 10.0))
+               
         }
     }
-    var restaurantStatus: some View{
+    var restaurantStatus: Text{
         if restaurant.status == "open"{
             return    Text("\(restaurant.status)")
                 .foregroundColor(.green)
-                .font(.system(size: 12.0))
         }else{
             if restaurant.status == "order ahead"{
                 return    Text("\(restaurant.status)")
                     .foregroundColor(.orange)
-                    .font(.system(size: 12.0))
             }else{
                 return    Text("\(restaurant.status)")
                     .foregroundColor(.red)
-                    .font(.system(size: 12.0))
             }
         }
     }

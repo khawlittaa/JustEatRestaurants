@@ -23,4 +23,12 @@ extension Text{
             .foregroundColor(.orange)
     }
     
+    func infostyle() -> some View{
+        self
+            .font(.system(size: 10.0))
+    }
+    func statusstyle() -> some View{
+        self
+            .font(.system(size: 12.0))
+    }
 }
