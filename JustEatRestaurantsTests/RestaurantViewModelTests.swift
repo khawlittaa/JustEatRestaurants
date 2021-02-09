@@ -42,17 +42,15 @@ class RestaurantViewModelTests: XCTestCase {
     func testrestaurantsInit() throws{
         let resaurantsVM = RestaurantsViewModel()
         
-        XCTAssertEqual(0,resaurantsVM.favorites.count)
         XCTAssertEqual(19,resaurantsVM.restaurants.count)
-        
     }
     
     func testAddFavorite() throws{
         let resaurantsVM = RestaurantsViewModel()
         let fav = resaurantsVM.restaurants[0]
-        resaurantsVM.addFavorite(fav)
-        XCTAssertEqual(1,resaurantsVM.favorites.count)
-        XCTAssertTrue(resaurantsVM.isfavorite(fav))
+        addFavorite(fav)
+        XCTAssertEqual(1,favorites.count)
+        XCTAssertTrue(isfavorite(fav))
         UserDefaults.standard.set(Array([]), forKey: "Favorites")
     }
     
@@ -61,14 +59,14 @@ class RestaurantViewModelTests: XCTestCase {
         let fav = resaurantsVM.restaurants[0]
         let fav1 = resaurantsVM.restaurants[1]
         
-        resaurantsVM.addFavorite(fav)
-        resaurantsVM.addFavorite(fav1)
+        addFavorite(fav)
+        addFavorite(fav1)
         
-        resaurantsVM.removeFavorite(fav)
+        removeFavorite(fav)
         
-        XCTAssertEqual(1,resaurantsVM.favorites.count)
-        XCTAssertTrue(resaurantsVM.isfavorite(fav1))
-        XCTAssertFalse(resaurantsVM.isfavorite(fav))
+        XCTAssertEqual(1,favorites.count)
+        XCTAssertTrue(isfavorite(fav1))
+        XCTAssertFalse(isfavorite(fav))
         
         UserDefaults.standard.set(Array([]), forKey: "Favorites")
         
@@ -122,7 +120,7 @@ class RestaurantViewModelTests: XCTestCase {
         let jsonData = json.data(using: .utf8)!
         let restaurantData =  try! JSONDecoder().decode([Restaurant].self, from: jsonData)
         
-        let sorted = restaurantData.reordebyStatus()
+       let sorted = restaurantData.reordebyStatus()
         
         XCTAssertEqual("Tanoshii Sushi",sorted[0].name)
         XCTAssertEqual("Royal Thai",sorted[1].name)
@@ -135,14 +133,14 @@ class RestaurantViewModelTests: XCTestCase {
         let resaurantsVM = RestaurantsViewModel()
         let fav = resaurantsVM.restaurants[3]
         
-        resaurantsVM.addFavorite(fav)
+        addFavorite(fav)
         
-        let sorted = resaurantsVM.reorderRestaurants()
+         resaurantsVM.reorderBypriority()
         
-        XCTAssertEqual(fav.name,sorted[0].name)
-        XCTAssertEqual("open",sorted[1].status)
+        XCTAssertEqual(fav.name,resaurantsVM.restaurants[0].name)
+        XCTAssertEqual("open",resaurantsVM.restaurants[1].status)
         
-        XCTAssertTrue(resaurantsVM.isfavorite(fav))
+        XCTAssertTrue(isfavorite(fav))
         
         UserDefaults.standard.set(Array([]), forKey: "Favorites")
     }

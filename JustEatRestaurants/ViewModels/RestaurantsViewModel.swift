@@ -6,10 +6,15 @@
 //
 
 import Foundation
+import Combine
 
 class RestaurantsViewModel: ObservableObject {
     
-    @Published var restaurants: [Restaurant]
+    @Published  var restaurants: [Restaurant]{
+        didSet {
+            objectWillChange.send()
+        }
+    }
     @Published var sortingOptions: [SortOption]
     
     init() {
@@ -17,11 +22,11 @@ class RestaurantsViewModel: ObservableObject {
         guard let url = Bundle.main.url(forResource: "restaurants", withExtension: "json") else {
             fatalError("Can't locate locations.json in the app bundle.")
         }
-
+        
         guard let data = try? Data(contentsOf: url) else {
             fatalError("Can't load restaurants.json from the app bundle.")
         }
-
+        
         guard let decoded = try? JSONDecoder().decode(RestaurantsData.self, from: data) else {
             fatalError("Can't decode restaurants.json from the app bundle.")
         }
@@ -44,22 +49,109 @@ class RestaurantsViewModel: ObservableObject {
     
     func reorderBypriority(){
         restaurants = reorderRestaurants()
+        objectWillChange.send()
     }
     
-  private  func reorderRestaurants() -> [Restaurant] {
+    
+    private  func reorderRestaurants() -> [Restaurant] {
         let defaultOrder = ["open", "order ahead", "closed"]
-
+        
         return restaurants.sorted { (res1taurant1, restaurant2) -> Bool in
-//            if both restaurants are favorite  or not favorite sort by status
+            //            if both restaurants are favorite  or not favorite sort by status
             if isfavorite(res1taurant1) == isfavorite(restaurant2){
                 if let first = defaultOrder.index(of: res1taurant1.status), let second = defaultOrder.index(of: restaurant2.status) {
                     return first < second
                 }
                 return false
             }else{
-               return isfavorite(res1taurant1) && !isfavorite(restaurant2)
+                return isfavorite(res1taurant1) && !isfavorite(restaurant2)
             }
         }
+    }
+    
+    func sortbyDistance() -> [Restaurant]{
+      return  restaurants.sorted { (rest1, rest2) -> Bool in
+         return   rest1.sortingValues.distance < rest2.sortingValues.distance
+        }
+    }
+    
+    func sortbyPopularity() -> [Restaurant]{
+      return  restaurants.sorted { (rest1, rest2) -> Bool in
+         return   rest1.sortingValues.popularity > rest2.sortingValues.popularity
+        }
+    }
+    
+    func sortbyNewest() -> [Restaurant]{
+      return  restaurants.sorted { (rest1, rest2) -> Bool in
+         return   rest1.sortingValues.newest > rest2.sortingValues.newest
+        }
+    }
+    
+    func sortbyBestMatch() -> [Restaurant]{
+      return  restaurants.sorted { (rest1, rest2) -> Bool in
+         return   rest1.sortingValues.bestMatch > rest2.sortingValues.bestMatch
+        }
+    }
+    func sortbydeliveryCosts() -> [Restaurant]{
+      return  restaurants.sorted { (rest1, rest2) -> Bool in
+         return   rest1.sortingValues.deliveryCosts < rest2.sortingValues.deliveryCosts
+        }
+    }
+    
+    func sortbyMinimumCost() -> [Restaurant]{
+      return  restaurants.sorted { (rest1, rest2) -> Bool in
+         return   rest1.sortingValues.minCost < rest2.sortingValues.minCost
+        }
+    }
+    func sortbyAverageProductPrice() -> [Restaurant]{
+      return  restaurants.sorted { (rest1, rest2) -> Bool in
+         return   rest1.sortingValues.averageProductPrice < rest2.sortingValues.averageProductPrice
+        }
+    }
+    
+    func sortbyRatingAverage() -> [Restaurant]{
+      return  restaurants.sorted { (rest1, rest2) -> Bool in
+         return   rest1.sortingValues.ratingAverage > rest2.sortingValues.ratingAverage
+        }
+    }
+    
+    func SortByValue(index: Int){
+        let item = sortingOptions[index]
+        if item.isSelected{
+            item.isSelected = false
+        }else{
+            item.isSelected = true
+            switch item.type {
+            case .none:
+                print("filter by priorities")
+                reorderBypriority()
+            case .distance:
+                print("filter by distance")
+                restaurants = sortbyDistance()
+            case .popularity:
+                print("filter by distance")
+                restaurants = sortbyPopularity()
+            case .newest:
+                print("filter by popularity")
+                restaurants = sortbyNewest()
+            case .bestMatch:
+                print("filter by bestMatch")
+                restaurants = sortbyBestMatch()
+            case .deliveryCosts:
+                print("filter by deliveryCosts")
+                restaurants = sortbydeliveryCosts()
+            case .minimumCost:
+                print("filter by minimumCost")
+                restaurants = sortbyMinimumCost()
+            case .averageProductPrice:
+                print("filter by averageProductPrice")
+                restaurants = sortbyAverageProductPrice()
+            case .ratingAverage:
+                print("filter by ratingAverage")
+                restaurants = sortbyRatingAverage()
+            }
+        }
+        
     }
     
     func filterResturantsByName(searchname: String){

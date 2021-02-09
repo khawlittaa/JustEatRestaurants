@@ -8,28 +8,26 @@
 import SwiftUI
 
 struct SortOptionCell: View {
-    let sortingValue: String
+// @State  var sortingValue: SortOption
+    var sortName: String
     @State var isSelected: Bool
     
     var body: some View {
-        filterStyle
-            .onTapGesture {
-                isSelected = !isSelected
-            }
+       filterStyle
     }
-    
+
     var filterStyle: some View{
         if isSelected{
-            return Text(sortingValue)
+           return Text(sortName)
                 .filterStyle()
                 .background(Color.orange)
                 .foregroundColor(.white)
             
         }else {
-            return Text(sortingValue)
-                .filterStyle()
-                .background(Color.white)
-                .foregroundColor(.orange)
+            return Text(sortName)
+            .filterStyle()
+            .background(Color.white)
+            .foregroundColor(.orange)
             
         }
     }

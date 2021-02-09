@@ -119,9 +119,9 @@ struct RestaurantCell: View {
     }
     var sortinginformations: some View{
         HStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/, spacing: 6, content: {
-            SortInfo(imageName: "mapDistance", sortInfoText: "\(restaurant.sortingValues.distance) km")
-            SortInfo(imageName: "deliveryScooter", sortInfoText: "\(restaurant.sortingValues.deliveryCosts) $")
-            SortInfo(imageName: "price", sortInfoText: "Min \(restaurant.sortingValues.minCost) $")
+            SortInfo(imageName: "mapDistance", sortInfoText: "\(restaurant.sortingValues.distance) Meter")
+            SortInfo(imageName: "deliveryScooter", sortInfoText: "\(restaurant.sortingValues.deliveryCosts) €")
+            SortInfo(imageName: "price", sortInfoText: "Min \(restaurant.sortingValues.minCost) €")
             
         })
     }

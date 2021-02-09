@@ -8,11 +8,15 @@
 import Foundation
 
 
-let favoriteRestaurants = UserDefaults.standard.stringArray(forKey: "Favorites") ?? []
+var favoriteRestaurants = UserDefaults.standard.stringArray(forKey: "Favorites") ?? []
 var favorites: [String] = favoriteRestaurants
 
 func isfavorite(_ restaurant: Restaurant) -> Bool{
-    favorites.contains(restaurant.name)
+    if favorites.count > 0{
+     return   favorites.contains(restaurant.name)
+    }else{
+      return  false
+    }
 }
 
 func addFavorite(_ restaurant: Restaurant){
@@ -21,7 +25,7 @@ func addFavorite(_ restaurant: Restaurant){
 }
 
 func removeFavorite(_ restaurant: Restaurant){
-    favorites = favorites.filter{$0 != restaurant.name}
+    favorites.removeAll(where: { $0 ==  restaurant.name})
     UserDefaults.standard.set(Array(favorites), forKey: "Favorites")
 }
 

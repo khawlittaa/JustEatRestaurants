@@ -20,12 +20,14 @@ struct ContentView: View {
         
         ScrollView(.horizontal, showsIndicators: false){
             HStack{
-              
-                ForEach(restaurantsViewModel.sortingOptions){
-                    value in
-                    SortOptionCell(sortingValue: value.filterTitle, isSelected: value.isSelected)
+                ForEach(restaurantsViewModel.sortingOptions.indices){
+                    i in
+                    SortOptionCell(sortName: restaurantsViewModel.sortingOptions[i].filterTitle, isSelected: restaurantsViewModel.sortingOptions[i].isSelected)
+                        .onTapGesture {
+                            restaurantsViewModel.SortByValue(index: i)
+                        }
                 }
-            }
+            }.padding(.all,4)
         }
         restaurantsList
          
