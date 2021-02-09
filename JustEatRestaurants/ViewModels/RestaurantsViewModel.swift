@@ -16,8 +16,15 @@ class RestaurantsViewModel: ObservableObject {
         }
     }
     @Published var sortingOptions: [SortOption]
-//    need to sync myfavorites with userDefault Value
-    @Published var myFavorites: [String] = favorites
+    //    need to sync myfavorites with userDefault Value
+    @Published var myFavorites: [String] = UserDefaults.standard.favorites{
+        didSet {
+            UserDefaults.standard.favorites = myFavorites
+            reorderBypriority()
+        }
+    }
+    
+    private var cancelable: AnyCancellable?
     
     init() {
         
@@ -46,65 +53,74 @@ class RestaurantsViewModel: ObservableObject {
         let sort9 = SortOption(type: .averageProductPrice, filterTitle: "average Product Price")
         
         sortingOptions = [sort1, sort2, sort3, sort4, sort5, sort6, sort7, sort8, sort9]
+        
+        cancelable = UserDefaults.standard.publisher(for: \.favorites)
+            .sink(receiveValue: { [weak self] newValue in
+                guard let self = self else { return }
+                if newValue != self.myFavorites { // avoid cycling !!
+                    self.myFavorites = newValue
+                }
+            })
+        
     }
     
+    
     func reorderBypriority(){
-        myFavorites = favorites
         restaurants = restaurants.reorderRestaurants()
         objectWillChange.send()
     }
- 
+    
     func sortbyDistance() -> [Restaurant]{
-      return  restaurants.sorted { (rest1, rest2) -> Bool in
-         return   rest1.sortingValues.distance < rest2.sortingValues.distance
+        return  restaurants.sorted { (rest1, rest2) -> Bool in
+            return   rest1.sortingValues.distance < rest2.sortingValues.distance
         }
     }
     
     func sortbyPopularity() -> [Restaurant]{
-      return  restaurants.sorted { (rest1, rest2) -> Bool in
-         return   rest1.sortingValues.popularity > rest2.sortingValues.popularity
+        return  restaurants.sorted { (rest1, rest2) -> Bool in
+            return   rest1.sortingValues.popularity > rest2.sortingValues.popularity
         }
     }
     
     func sortbyNewest() -> [Restaurant]{
-      return  restaurants.sorted { (rest1, rest2) -> Bool in
-         return   rest1.sortingValues.newest > rest2.sortingValues.newest
+        return  restaurants.sorted { (rest1, rest2) -> Bool in
+            return   rest1.sortingValues.newest > rest2.sortingValues.newest
         }
     }
     
     func sortbyBestMatch() -> [Restaurant]{
-      return  restaurants.sorted { (rest1, rest2) -> Bool in
-         return   rest1.sortingValues.bestMatch > rest2.sortingValues.bestMatch
+        return  restaurants.sorted { (rest1, rest2) -> Bool in
+            return   rest1.sortingValues.bestMatch > rest2.sortingValues.bestMatch
         }
     }
     
     func sortbydeliveryCosts() -> [Restaurant]{
-      return  restaurants.sorted { (rest1, rest2) -> Bool in
-         return   rest1.sortingValues.deliveryCosts < rest2.sortingValues.deliveryCosts
+        return  restaurants.sorted { (rest1, rest2) -> Bool in
+            return   rest1.sortingValues.deliveryCosts < rest2.sortingValues.deliveryCosts
         }
     }
     
     func sortbyMinimumCost() -> [Restaurant]{
-      return  restaurants.sorted { (rest1, rest2) -> Bool in
-         return   rest1.sortingValues.minCost < rest2.sortingValues.minCost
+        return  restaurants.sorted { (rest1, rest2) -> Bool in
+            return   rest1.sortingValues.minCost < rest2.sortingValues.minCost
         }
     }
     
     func sortbyAverageProductPrice() -> [Restaurant]{
-      return  restaurants.sorted { (rest1, rest2) -> Bool in
-         return   rest1.sortingValues.averageProductPrice < rest2.sortingValues.averageProductPrice
+        return  restaurants.sorted { (rest1, rest2) -> Bool in
+            return   rest1.sortingValues.averageProductPrice < rest2.sortingValues.averageProductPrice
         }
     }
     
     func sortbyRatingAverage() -> [Restaurant]{
-      return  restaurants.sorted { (rest1, rest2) -> Bool in
-         return   rest1.sortingValues.ratingAverage > rest2.sortingValues.ratingAverage
+        return  restaurants.sorted { (rest1, rest2) -> Bool in
+            return   rest1.sortingValues.ratingAverage > rest2.sortingValues.ratingAverage
         }
     }
     
-  private  func selecSortingValue(index: Int){
+    private  func selecSortingValue(index: Int){
         for i in 0...sortingOptions.count-1 where i != index{
-                sortingOptions[i].isSelected = false
+            sortingOptions[i].isSelected = false
         }
     }
     
