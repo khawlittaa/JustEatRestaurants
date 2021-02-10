@@ -16,47 +16,37 @@ struct ContentView: View {
     var body: some View {
         searchBar
         filtersList
-        ScrollView(.vertical, showsIndicators: false) {
-            
-            VStack(spacing: 15){
-                
                 if self.searchText != ""{
-                    
                     if restaurantsViewModel.filterResturantsByName(searchname: self.searchText).count == 0{
-                        
                         Text(NSLocalizedString("No Results", comment: "No Results found in search")).padding(.top, 10)
+                        Spacer()
                     }
                     else{
-                        
-                        ForEach(restaurantsViewModel.filterResturantsByName(searchname: self.searchText)){ result in
-                            
-                            RestaurantCell(restaurant: result, isfavorite: isfavorite(result))
-                                .padding(.all,2)
-                                .listRowInsets(EdgeInsets())
-                                .background(Color.white)
-                        }
+///                     display list of restaurants that matches search Result
+                            List(restaurantsViewModel.filterResturantsByName(searchname: self.searchText)) { restaurant in
+                                RestaurantCell(restaurant: restaurant, isfavorite: isfavorite(restaurant))
+                                    .padding(.all,2)
+                                    .listRowInsets(EdgeInsets())
+                                    .background(Color.white)
+                                   }
                     }
                 }
-                
                 else{
-                    ForEach(restaurantsViewModel.restaurants){ restaurant in
+///                    Not seaching here so display all restaurants
+                    List(restaurantsViewModel.restaurants) { restaurant in
                         RestaurantCell(restaurant: restaurant, isfavorite: isfavorite(restaurant))
                             .padding(.all,2)
                             .listRowInsets(EdgeInsets())
                             .background(Color.white)
-                    }
+                           }
                 }
-                
+        
             }
-            .padding(.horizontal, 15)
-            .padding(.top, 10)
-        }
-        .edgesIgnoringSafeArea(.top)
-    }
     
     
     var filtersList: some View{
-        return   ScrollView(.horizontal, showsIndicators: false){
+        return
+            ScrollView(.horizontal, showsIndicators: false){
             HStack{
                 ForEach(restaurantsViewModel.sortingOptions.indices){
                     i in
@@ -74,39 +64,31 @@ struct ContentView: View {
     
     var searchBar : some View{
         
-        return  VStack(spacing: 0){
+        return  VStack{
             
             HStack{
-                
                 if !self.isSearching{
-                    
                     Text(NSLocalizedString("title", comment: "title of the view"))
                         .fontWeight(.bold)
                         .font(.title)
                         .foregroundColor(.white)
                 }
-                
                 Spacer(minLength: 0)
                 
                 HStack{
                     
                     if self.isSearching{
-                        
-                        
                         Image(systemName: "magnifyingglass").padding(.horizontal, 8)
                         
                         TextField(NSLocalizedString("searchPlaceholderText", comment: "place Holder text in searchBar") , text: self.$searchText)
                         
                         Button(action: {
-                            
                             withAnimation {
-                                
                                 self.searchText = ""
                                 self.isSearching.toggle()
                             }
                             
                         }) {
-                            
                             Image(systemName: "xmark").foregroundColor(.black)
                         }
                         .padding(.horizontal, 8)
@@ -116,15 +98,11 @@ struct ContentView: View {
                     else{
                         
                         Button(action: {
-                            
                             withAnimation {
-                                
                                 self.isSearching.toggle()
                             }
-                            
                         }) {
                             Image(systemName: "magnifyingglass").foregroundColor(.black).padding(10)
-                            
                         }
                     }
                 }

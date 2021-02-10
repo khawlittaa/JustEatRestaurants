@@ -17,7 +17,6 @@ struct RestaurantCell: View {
                 restaurantRating
                 restaurantPopularity
                     .infostyle()
-                
             }
             
             HStack(alignment: .center, content: {
@@ -29,7 +28,6 @@ struct RestaurantCell: View {
                         toggleFavorite(restaurant)
                         isfavorite = JustEatRestaurants.isfavorite(restaurant)
                     }
-                
             })
             
             HStack(alignment: .center, spacing: 10, content: {
@@ -39,14 +37,12 @@ struct RestaurantCell: View {
                     . statusstyle()
                     .padding(.trailing, 4)
             })
-            
         }
         .padding(.all,6)
         .overlay(
             RoundedRectangle(cornerRadius: 10)
                 .stroke(Color.white, lineWidth: 0.2)
                 .shadow(radius: 0.4 )
-            
         )
     }
     
