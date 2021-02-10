@@ -22,6 +22,7 @@ extension Array where Element == Restaurant {
     }
     
     func reorderRestaurants() -> [Restaurant] {
+        
         let defaultOrder = ["open", "order ahead", "closed"]
         
         return self.sorted { (res1taurant1, restaurant2) -> Bool in

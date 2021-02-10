@@ -41,13 +41,14 @@ class RestaurantsViewModel: ObservableObject {
         
         restaurants = decoded.restaurants.reorderRestaurants()
         
-        
+//       setting the list of sorting options
         SortOptions.allCases.forEach({ (s) in
             let sort = SortOption(type: s, filterTitle: s.rawValue)
                     sortingOptions.append(sort)
                 })
         sortingOptions.first?.isSelected = true
         
+//       updating values of favorite based on changes in userDefault
         cancelable = UserDefaults.standard.publisher(for: \.favorites)
             .sink(receiveValue: { [weak self] newValue in
                 guard let self = self else { return }

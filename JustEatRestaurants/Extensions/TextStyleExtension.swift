@@ -13,7 +13,6 @@ extension Text{
             .frame(height: 20)
             .font(.system(size: 12.0))
             .padding(.all,2)
-        
     }
     
     func titleStyle() -> some View{
@@ -26,8 +25,16 @@ extension Text{
         self
             .font(.system(size: 10.0))
     }
+    
     func statusstyle() -> some View{
         self
             .font(.system(size: 12.0))
+    }
+    
+    func headerStyle() -> some View{
+        self
+            .fontWeight(.bold)
+            .font(.title)
+            .foregroundColor(.white)
     }
 }
