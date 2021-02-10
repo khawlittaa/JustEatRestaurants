@@ -14,32 +14,35 @@ struct ContentView: View {
     @State var searchText = ""
     
     var body: some View {
-        searchBar
-        filtersList
-                if self.searchText != ""{
-                    if restaurantsViewModel.filterResturantsByName(searchname: self.searchText).count == 0{
-                        Text(NSLocalizedString("No Results", comment: "No Results found in search")).padding(.top, 10)
-                        Spacer()
+        VStack{
+            searchBar
+            filtersList
+                    if self.searchText != ""{
+                        if restaurantsViewModel.filterResturantsByName(searchname: self.searchText).count == 0{
+                            Text(NSLocalizedString("No Results", comment: "No Results found in search")).padding(.top, 10)
+                            Spacer()
+                        }
+                        else{
+    ///                     display list of restaurants that matches search Result
+                                List(restaurantsViewModel.filterResturantsByName(searchname: self.searchText)) { restaurant in
+                                    RestaurantCell(restaurant: restaurant, isfavorite: isfavorite(restaurant))
+                                        .padding(.all,2)
+                                        .listRowInsets(EdgeInsets())
+                                        .background(Color.white)
+                                       }
+                        }
                     }
                     else{
-///                     display list of restaurants that matches search Result
-                            List(restaurantsViewModel.filterResturantsByName(searchname: self.searchText)) { restaurant in
-                                RestaurantCell(restaurant: restaurant, isfavorite: isfavorite(restaurant))
-                                    .padding(.all,2)
-                                    .listRowInsets(EdgeInsets())
-                                    .background(Color.white)
-                                   }
+    ///                    Not seaching here so display all restaurants
+                        List(restaurantsViewModel.restaurants) { restaurant in
+                            RestaurantCell(restaurant: restaurant, isfavorite: isfavorite(restaurant))
+                                .padding(.all,2)
+                                .listRowInsets(EdgeInsets())
+                                .background(Color.white)
+                               }
                     }
-                }
-                else{
-///                    Not seaching here so display all restaurants
-                    List(restaurantsViewModel.restaurants) { restaurant in
-                        RestaurantCell(restaurant: restaurant, isfavorite: isfavorite(restaurant))
-                            .padding(.all,2)
-                            .listRowInsets(EdgeInsets())
-                            .background(Color.white)
-                           }
-                }
+        }.edgesIgnoringSafeArea(.top)
+       
         
             }
     
@@ -64,7 +67,8 @@ struct ContentView: View {
     
     var searchBar : some View{
         
-        return  VStack{
+        return
+            VStack{
             
             HStack{
                 if !self.isSearching{
@@ -109,17 +113,12 @@ struct ContentView: View {
                 .padding(self.isSearching ? 10 : 0)
                 .background(Color.white)
                 .cornerRadius(20)
-                
-                
             }
-            .padding(.top, (UIApplication.shared.windows.first?.safeAreaInsets.top)! + 15)
+            .padding(.top,40)
             .padding(.horizontal)
             .padding(.bottom, 10)
             .background(Color.orange)
-            
-            
         }
-        .edgesIgnoringSafeArea(.top)
     }
 }
 
