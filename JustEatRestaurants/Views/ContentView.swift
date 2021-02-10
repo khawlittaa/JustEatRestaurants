@@ -37,7 +37,7 @@ struct ContentView: View {
                         List(restaurantsViewModel.restaurants) { restaurant in
                             RestaurantCell(restaurant: restaurant, isfavorite: isfavorite(restaurant))
                                 .padding(.all,2)
-                                .listRowInsets(EdgeInsets())
+//                                .listRowInsets(EdgeInsets())
                                 .background(Color.white)
                                }
                     }

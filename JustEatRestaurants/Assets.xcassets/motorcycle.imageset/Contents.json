@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "deliveryScooter~universal@1x.png",
+      "filename" : "motorcycle~universal@1x.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "deliveryScooter~universal@2x.png",
+      "filename" : "motorcycle~universal@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "deliveryScooter~universal@3x.png",
+      "filename" : "motorcycle~universal@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

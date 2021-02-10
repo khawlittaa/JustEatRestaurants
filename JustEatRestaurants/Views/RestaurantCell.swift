@@ -12,12 +12,7 @@ struct RestaurantCell: View {
     @State var isfavorite: Bool
     
     var body: some View {
-        VStack(alignment: .leading , spacing:2){
-            HStack(spacing: 2){
-                restaurantRating
-                restaurantPopularity
-                    .infostyle()
-            }
+        VStack(alignment: .leading , spacing:4){
             
             HStack(alignment: .center, content: {
                 Text("\(restaurant.name)")
@@ -25,27 +20,27 @@ struct RestaurantCell: View {
                 Spacer()
                 favoriteIcone
                     .onTapGesture {
-                        toggleFavorite(restaurant)
-                        isfavorite = JustEatRestaurants.isfavorite(restaurant)
+                        toggleFavoriterestaurant()
                     }
             })
             
-            HStack(alignment: .center, spacing: 10, content: {
-                sortinginformations
-                Spacer()
+            HStack(spacing: 2){
+                restaurantRating
+                restaurantPopularity
+                    .infostyle()
+                //                Spacer()
                 restaurantStatus
                     . statusstyle()
+                    .padding(.leading,15)
                     .padding(.trailing, 4)
-            })
+            }
+            
+            sortinginformations
         }
         .padding(.all,6)
-        .overlay(
-            RoundedRectangle(cornerRadius: 10)
-                .stroke(Color.white, lineWidth: 0.2)
-                .shadow(radius: 0.4 )
-        )
     }
     
+    /// View for displaying Restaurants rating average with star icon
     var restaurantRating: some View{
         if restaurant.sortingValues.ratingAverage.description == "0.0"{
             return  HStack(spacing:2){
@@ -73,15 +68,16 @@ struct RestaurantCell: View {
         }
     }
     
+    /// Text displaying popularity value
     var restaurantPopularity: Text{
         if restaurant.sortingValues.popularity.description == "0.0"{
             return    Text("(\(restaurant.sortingValues.popularity.description))")
                 .foregroundColor(.gray)
         }else {
             return    Text("(\(restaurant.sortingValues.popularity.description))")
-               
         }
     }
+    /// text  displaying restaurants status: Open, order ahead or Closed with different Foreground color for each status
     var restaurantStatus: Text{
         if restaurant.status == "open"{
             return    Text("\(restaurant.status)")
@@ -96,31 +92,35 @@ struct RestaurantCell: View {
             }
         }
     }
-    
+    /// displaying favorite Image and changing it based when restaurant is added or deleted from favorites
     var favoriteIcone: some View{
         if isfavorite{
             return   Image(systemName: "heart.fill")
                 .resizable()
-                .frame(width: 25, height: 25)
+                .frame(width: 20, height: 20)
                 .foregroundColor(.pink)
-                .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
         }else {
-            return   Image(systemName: "heart")
+            return
+                Image(systemName: "heart")
                 .resizable()
-                .frame(width: 25, height: 25)
+                .frame(width: 20, height: 20)
                 .foregroundColor(.pink)
-                .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
         }
     }
+    /// View for displaying Restaurants Sorting values
     var sortinginformations: some View{
-        HStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/, spacing: 6, content: {
-            SortInfo(imageName: "mapDistance", sortInfoText: "\(restaurant.sortingValues.distance) Meter")
-            SortInfo(imageName: "deliveryScooter", sortInfoText: "\(restaurant.sortingValues.deliveryCosts) €")
-            SortInfo(imageName: "price", sortInfoText: "Min \(restaurant.sortingValues.minCost) €")
+        HStack(alignment: .center, content: {
+            SortInfo(imageName: "map", sortInfoText: "\(restaurant.sortingValues.distance) Meter")
+            SortInfo(imageName: "motorcycle", sortInfoText: "\(restaurant.sortingValues.deliveryCosts)€")
+            SortInfo(imageName: "euro-price-tag", sortInfoText: "Min \(restaurant.sortingValues.minCost)€")
             
         })
     }
     
+    func toggleFavoriterestaurant() {
+        toggleFavorite(restaurant)
+        isfavorite = JustEatRestaurants.isfavorite(restaurant)
+    }
 }
 
 struct RestaurantCell_Previews: PreviewProvider {

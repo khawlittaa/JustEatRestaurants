@@ -16,16 +16,12 @@ struct SortInfo: View {
             Image(imageName)
                 .resizable()
                 .frame(width: 14, height: 14)
-                .foregroundColor(.gray)
-            
+                
             Text(sortInfoText)
-                .font(.system(size: 10.0))
+                .infostyle()
+                .padding(.leading,4)
+            
         })
     }
 }
 
-struct SortInfo_Previews: PreviewProvider {
-    static var previews: some View {
-        SortInfo(imageName: "star.fill", sortInfoText: "sorting info")
-    }
-}

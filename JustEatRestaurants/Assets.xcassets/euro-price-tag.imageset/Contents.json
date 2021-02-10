@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "timer~universal@1x.png",
+      "filename" : "euro-price-tag~universal@1x.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "timer~universal@2x.png",
+      "filename" : "euro-price-tag~universal@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "timer~universal@3x.png",
+      "filename" : "euro-price-tag~universal@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
