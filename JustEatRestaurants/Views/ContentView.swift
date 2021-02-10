@@ -24,7 +24,7 @@ struct ContentView: View {
                     
                     if restaurantsViewModel.filterResturantsByName(searchname: self.searchText).count == 0{
                         
-                        Text("No Results Found").padding(.top, 10)
+                        Text(NSLocalizedString("No Results", comment: "No Results found in search")).padding(.top, 10)
                     }
                     else{
                         
@@ -68,6 +68,7 @@ struct ContentView: View {
             }
             .id(UUID())
             .padding(.all,4)
+            .frame(height: 30)
         }
     }
     
@@ -79,7 +80,7 @@ struct ContentView: View {
                 
                 if !self.isSearching{
                     
-                    Text("Restaurants")
+                    Text(NSLocalizedString("title", comment: "title of the view"))
                         .fontWeight(.bold)
                         .font(.title)
                         .foregroundColor(.white)
@@ -94,7 +95,7 @@ struct ContentView: View {
                         
                         Image(systemName: "magnifyingglass").padding(.horizontal, 8)
                         
-                        TextField("Search Restaurants", text: self.$searchText)
+                        TextField(NSLocalizedString("searchPlaceholderText", comment: "place Holder text in searchBar") , text: self.$searchText)
                         
                         Button(action: {
                             

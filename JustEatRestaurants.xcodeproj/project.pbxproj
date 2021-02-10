@@ -10,6 +10,7 @@
 		6E30237F25D1F477007A0528 /* FavoriteList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E30237E25D1F477007A0528 /* FavoriteList.swift */; };
 		6E54452B25D29A68005113EE /* SortOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E54452A25D29A68005113EE /* SortOption.swift */; };
 		6E54453325D2C24E005113EE /* RestaurantSortTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E54453225D2C24E005113EE /* RestaurantSortTests.swift */; };
+		6E59FF0625D3DC1C0033361C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6E59FF0525D3DC1C0033361C /* Localizable.strings */; };
 		6E5EB4C425D13A7B000985C0 /* ArraySortExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E5EB4C325D13A7B000985C0 /* ArraySortExtension.swift */; };
 		6E5EB4CE25D13ED8000985C0 /* RestaurantCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E5EB4CD25D13ED8000985C0 /* RestaurantCell.swift */; };
 		6E5EB4D325D13EF2000985C0 /* TextStyleExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E5EB4D225D13EF2000985C0 /* TextStyleExtension.swift */; };
@@ -51,6 +52,7 @@
 		6E30237E25D1F477007A0528 /* FavoriteList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteList.swift; sourceTree = "<group>"; };
 		6E54452A25D29A68005113EE /* SortOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortOption.swift; sourceTree = "<group>"; };
 		6E54453225D2C24E005113EE /* RestaurantSortTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantSortTests.swift; sourceTree = "<group>"; };
+		6E59FF0525D3DC1C0033361C /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		6E5EB4C325D13A7B000985C0 /* ArraySortExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArraySortExtension.swift; sourceTree = "<group>"; };
 		6E5EB4CD25D13ED8000985C0 /* RestaurantCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantCell.swift; sourceTree = "<group>"; };
 		6E5EB4D225D13EF2000985C0 /* TextStyleExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextStyleExtension.swift; sourceTree = "<group>"; };
@@ -134,6 +136,7 @@
 				6E83E86F25CDD13900423796 /* restaurants.json */,
 				6E83E84425CDABA300423796 /* LaunchScreen.storyboard */,
 				6E83E84725CDABA300423796 /* Info.plist */,
+				6E59FF0525D3DC1C0033361C /* Localizable.strings */,
 				6E83E84125CDABA300423796 /* Preview Content */,
 			);
 			path = JustEatRestaurants;
@@ -308,6 +311,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6E59FF0625D3DC1C0033361C /* Localizable.strings in Resources */,
 				6E83E87025CDD13900423796 /* restaurants.json in Resources */,
 				6E83E84625CDABA300423796 /* LaunchScreen.storyboard in Resources */,
 				6E83E84325CDABA300423796 /* Preview Assets.xcassets in Resources */,

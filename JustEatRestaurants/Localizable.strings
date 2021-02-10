@@ -1,0 +1,10 @@
+/* 
+  Localizable.strings
+  JustEatRestaurants
+
+  Created by khaoula hafsia on 10/2/2021.
+  
+*/
+"searchPlaceholderText" = "Search Restaurants";
+"title" = "Restaurants";
+"No Results" = "No Results Found";
